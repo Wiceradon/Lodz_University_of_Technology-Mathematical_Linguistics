@@ -6,9 +6,15 @@ Created on 17-12-2013
 
 class SimpleWriter:
     '''
-    classdocs
+    Writer sending text to standard console output
     '''
 
 
     def write(self, data):
+        '''
+        Print data onto console output
+        
+        Args:
+            data: an object that can be represented as a String (implementing __str__ method)
+        '''
         print str(data)
