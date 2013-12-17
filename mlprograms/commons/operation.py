@@ -24,7 +24,7 @@ class Operation:
         Perform operation.
         
         Args:
-            operation: string, operation that should be performed (if possible)
+            operation: string representing operation that should be performed (if possible)
             value1: operand
             value2: operand
         Returns:
@@ -37,4 +37,15 @@ class Operation:
             raise RuntimeError('Operation "%s" is not allowed' % operation)
         
         return self.operationMapping[operation](value1, value2)
+    
+    def isAllowed(self, operation):
+        '''
+        Check if operation is allowed to perform
         
+        Args:
+            operation: string representing operation
+        Returns:
+            true iff operation is allowed else false
+        '''
+        
+        return operation in self.operationMapping.keys()
