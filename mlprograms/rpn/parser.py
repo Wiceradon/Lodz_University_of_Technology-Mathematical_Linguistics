@@ -9,9 +9,18 @@ import mlprograms.commons.operation as operation
 
 class RpnParser:
     '''
+    Class to parse RPN (Reverse Polish Notation) - execute RPN sequence and produce result
+    
+    Examples:
+        text = [6, 4, +, 2, /]
+        text2 = [2, 1, -, 3, *, 1, +]
+        text3 = [3, 9, 3, 7, 2, 3, +, -, *, /, +]
+        RpnParser(text).parse() => 5
+        RpnParser(text2).parse() => 4
+        RpnParser(text3).parse() => 4.5
     '''
     
-    def __init__(self, writer = basic.SimpleWriter, tokenizedInput):
+    def __init__(self, tokenizedInput, writer = basic.SimpleWriter()):
         '''
         Constructor
         
@@ -32,10 +41,10 @@ class RpnParser:
         '''
         
         if(len(self.right)==0): return self.left[0]
-        self.nextElement()
+        self.nextStep()
         return self.parse()
         
-    def nextElement(self):
+    def nextStep(self):
         self.currentElem = self.right.pop(0)
         if self.performer.isAllowed(self.currentElem):
             self.writer.write("Executing operation: "+self.currentElem)
@@ -51,5 +60,5 @@ class RpnParser:
             v2 = self.left.pop()
             res = self.performer.perform(self.currentElem, v2, v1)
             self.left.append(res)
-            self.writer.write("Adding result to a stack: "+self(res))
+            self.writer.write("Adding result to a stack: "+str(res))
             self.writer.write("Current state of a stack: "+str(self.left))
