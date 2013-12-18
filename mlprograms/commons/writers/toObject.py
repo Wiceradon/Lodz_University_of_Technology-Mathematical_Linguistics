@@ -1,3 +1,4 @@
+# This Python file uses the following encoding: utf-8
 '''
 Created on 17-12-2013
 
@@ -28,5 +29,5 @@ class ObjectTextWriter(basic.SimpleWriter):
         Args:
             data: an object that can be represented as a String (implementing __str__ method)
         '''
-        currentText = self.writable.getText()
-        self.writable.setText(currentText+"\n"+str(data))
+        currentText = self.writable.getText()+"\n" if len(self.writable.getText()) != 0 else ""
+        self.writable.setText(currentText+str(data))

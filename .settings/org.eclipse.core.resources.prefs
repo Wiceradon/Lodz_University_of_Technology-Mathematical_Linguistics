@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+encoding//mlprograms/commons/operation.py=utf-8
+encoding//mlprograms/commons/writers/basic.py=utf-8
+encoding//mlprograms/commons/writers/toObject.py=utf-8
+encoding//mlprograms/rpn/parser.py=utf-8
+encoding//tests/commons/operationTest.py=utf-8
+encoding//tests/commons/writers/toObjectTest.py=utf-8
