@@ -31,9 +31,14 @@ class RpnGuiGTK:
         self.glade.connect_signals(self)
         self.glade.get_object("Window").show_all()
         self.results = {"Default":[None, None]}
-        self.liststore = gtk.ListStore(int,str)
-        self.liststore.append(["Default","Select an Item:"])
+        self.liststore = gtk.ListStore(str)
+        self.liststore.append(["Default"])
         self.cell = gtk.CellRendererText()
+        combobox = self.glade.get_object("resultComboBox")
+        combobox.set_model(self.liststore)
+        combobox.pack_start(self.cell, True)
+        combobox.add_attribute(self.cell, 'text', 0)
+        combobox.set_active(0)
         
     def WindowDestroy(self, widget):
         gtk.main_quit()
@@ -42,17 +47,12 @@ class RpnGuiGTK:
         bufText = self.glade.get_object("input").get_buffer()
         inputText = bufText.get_text(bufText.get_start_iter(), bufText.get_end_iter())
         inputText = inputText.split("\n")
-        comboBox = self.glade.get_object("resultComboBox")
-        comboBox.set_model(self.liststore)
-        comboBox.pack_start(self.cell, True)
-        comboBox.add_attribute(self.cell, 'text', 1)
-        prefix = "Result "
-        ind = 1
+        
         for i in inputText:
             self.results[i] = [TextPlaceholder(), None]
             writerObj = writer.ObjectTextWriter(self.results[i][0])
             self.results[i][1] = parser.RpnParser(i.strip().split(), writerObj).parse()
-            self.glade.get_object("resultComboBox").append_text(i)
+            self.liststore.append([i])
     
     def btnClearClicked(self, widget):
         output = self.glade.get_object("resultOutput")
@@ -64,20 +64,26 @@ class RpnGuiGTK:
         inputBuf.set_text("")
         
         self.results = {"Default":[None, None]}
+        
+        self.liststore.clear()
+        self.liststore.append(["Default"])
+        self.glade.get_object("resultComboBox").set_active(0)
     
     def btnCloseClicked(self, widget):
         gtk.main_quit()
 
     def resultComboBoxChanged(self, widget):
-        currentRes = self.glade.get_object("resultComboBox").get_active_text()
-        output = self.glade.get_object("resultOutput")
-        outputBuf = output.get_buffer()
-        if currentRes == "Default":
-            outputBuf.set_text("")
-        else:
-            outputBuf.set_text(self.results[currentRes][0].getText+
-                               "\n\nResult: "+
-                               str(self.results[currentRes][1]))
+        idn = widget.get_active()
+        if idn != -1:
+            currentRes = self.liststore[idn][0]
+            output = self.glade.get_object("resultOutput")
+            outputBuf = output.get_buffer()
+            if currentRes == "Default":
+                outputBuf.set_text("")
+            else:
+                outputBuf.set_text(self.results[currentRes][0].getText()+
+                                   "\n\nResult: "+
+                                   str(self.results[currentRes][1]))
 
 class TextPlaceholder:
     
