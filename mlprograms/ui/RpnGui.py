@@ -22,9 +22,13 @@ except:
 
 class RpnGuiGTK:
     '''
+    Class used to represent gtk model
     '''
     
     def __init__(self):
+        '''
+        Constructor
+        '''
         self.gladeFile = pkg_resources.resource_filename('mlprograms.resources.models', 'rpnGuiModel.glade')
         self.glade = gtk.Builder()
         self.glade.add_from_file(self.gladeFile)
@@ -41,9 +45,21 @@ class RpnGuiGTK:
         combobox.set_active(0)
         
     def WindowDestroy(self, widget):
+        '''
+        Callback for action of terminating window
+        
+        Args:
+            widget: a gtk widget on which was executed action
+        '''
         gtk.main_quit()
         
     def btnStartClicked(self, widget):
+        '''
+        Callback for clicking start button
+        
+        Args:
+            widget: a gtk widget on which was executed action
+        '''
         bufText = self.glade.get_object("input").get_buffer()
         inputText = bufText.get_text(bufText.get_start_iter(), bufText.get_end_iter())
         inputText = inputText.split("\n")
@@ -55,6 +71,12 @@ class RpnGuiGTK:
             self.liststore.append([i])
     
     def btnClearClicked(self, widget):
+        '''
+        Callback for clicking clear button
+        
+        Args:
+            widget: a gtk widget on which was executed action
+        '''
         output = self.glade.get_object("resultOutput")
         outputBuf = output.get_buffer()
         outputBuf.set_text("")
@@ -70,9 +92,21 @@ class RpnGuiGTK:
         self.glade.get_object("resultComboBox").set_active(0)
     
     def btnCloseClicked(self, widget):
+        '''
+        Callback for clicking clear button
+        
+        Args:
+            widget: a gtk widget on which was executed action
+        '''
         gtk.main_quit()
 
     def resultComboBoxChanged(self, widget):
+        '''
+        Callback for changing element in combobox
+        
+        Args:
+            widget: a gtk widget on which was executed action
+        '''
         idn = widget.get_active()
         if idn != -1:
             currentRes = self.liststore[idn][0]
@@ -86,14 +120,32 @@ class RpnGuiGTK:
                                    str(self.results[currentRes][1]))
 
 class TextPlaceholder:
+    '''
+    Class for remembering logs
+    '''
     
     def __init__(self):
+        '''
+        Constructor
+        '''
         self.text = ""
         
     def getText(self):
+        '''
+        Function returning current text in object
+        
+        Returns:
+            a current text state of an object
+        '''
         return self.text
     
     def setText(self, data):
+        '''
+        Function for setting a text
+        
+        Args:
+            data: a string that should be treated as new internal text state
+        '''
         self.text = data
         
 

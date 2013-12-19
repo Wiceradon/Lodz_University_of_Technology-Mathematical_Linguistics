@@ -37,7 +37,10 @@ class RpnParser:
         
     def parse(self):
         '''
+        Function executing algorithm of parsing RPN input
         
+        Returns:
+            result of operations specified by RPN
         '''
         
         if(len(self.right)==0): return self.left[0]
@@ -45,6 +48,9 @@ class RpnParser:
         return self.parse()
         
     def nextStep(self):
+        '''
+        Function that take next element from RPN stack and decide what to do next
+        '''
         self.currentElem = self.right.pop(0)
         if self.performer.isAllowed(self.currentElem):
             self.writer.write("Executing operation: "+self.currentElem)
@@ -55,6 +61,9 @@ class RpnParser:
             self.writer.write("Current state of a stack: "+str(self.left))
             
     def performOperation(self):
+        '''
+        Function that executes operation on 2 right most elements on data stack
+        '''
         if len(self.left) > 1:
             v1 = self.left.pop()
             v2 = self.left.pop()
