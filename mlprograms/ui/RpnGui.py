@@ -29,7 +29,7 @@ class RpnGuiGTK:
         '''
         Constructor
         '''
-        self.gladeFile = pkg_resources.resource_filename('mlprograms.resources.models', 'rpnGuiModel.glade')
+        self.gladeFile = pkg_resources.resource_filename('mlprograms.resources.models', 'rpnGuiModel.glade')  # @UndefinedVariable
         self.glade = gtk.Builder()
         self.glade.add_from_file(self.gladeFile)
         self.glade.connect_signals(self)
